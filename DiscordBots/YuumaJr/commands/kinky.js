@@ -4,8 +4,8 @@ module.exports = {
 	execute(message) {
 
 		var num = Math.round(Math.random() * 100);
-
-		if (!message.author.bot && num == 1){
+	
+		if (!message.author.bot && num == 50){
 			message.channel.send('Kinky');
 		}
 	}

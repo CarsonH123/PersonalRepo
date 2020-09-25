@@ -1,12 +1,18 @@
 const Discord = require('discord.js');
 
 const client = new Discord.Client();
+var token = new String('zU4NTAyODk0NTQ2MDU5Mjc0.X2v43g.0W_mElcdHTB0y-wsZClcQIHI8O0');
 
 const prefix = '+';
-var stalkerState = new Boolean(false);
-var code = new String('');
+
+//initializing
+var code = new String('');//Among-Us Code Storage
+var sayOutput = new String('');//Storage for Say command
+var stalkerState = new Boolean();//Whether Stalker-Mode is on or off
+var stalkedUserID = new String('');//Multipurpose UserID storage for stalker
 
 const fs = require('fs');
+const { setPriority } = require('os');
 const { createInterface } = require('readline');
 
 client.commands = new Discord.Collection();
@@ -21,29 +27,52 @@ for(const file of commandFiles) {
 
 client.once('ready', () => {
 	console.log('Client Running');
+	stalkerState = false;
 });
 
 client.on('message', message => {
+	if(message.author.bot) return;
+
 	const args = message.content.slice(prefix.length).split(/ + /);
 	const command = args.shift().toLowerCase();
 	
+	//commands to run after every message
 	client.commands.get('kinky').execute(message);
 
+	
+	if (stalkerState && stalkerUserID == (message.member).toString()) {
+		message.channel.send('Hello Friend');
+	}
+
+	
+	
 	//commands NOT requiring prefix
 	if (message.content.startsWith('@everyone') || message.content.startsWith('@here')) {
 
 		client.commands.get('snitch').execute(message, args);
 
-	} else if (stalkerState && message.member.id == 451479359115624468n) {
-
-		message.channel.send('Hello Friend');
-
 	}
 
-	if(!message.content.startsWith(prefix) || message.author.bot) return; //tests for prefix
+	if(!message.content.startsWith(prefix)) return; //tests for prefix
 
 	//commands requiring prefix
-	if (command === 'log'){
+	
+	if (command === 'commands'){
+		
+		message.channel.send(
+			">>> __**Available Commands:**__\n" +
+			"**Addcode [code]**: *Saves an Among-Us code to memory*\n" +
+			"**Code**: *Displays currently saved Among-Us code*\n" +
+			"**Ping**: *Pong!*\n" +
+			"**Say [message]**: *Yuuma replies with [message], deletes trigger message*\n" +
+			"**Stalker**: *Enables stalker function for user*\n\n" +
+
+			"__**Additional Functionalities:**__\n" +
+			"**Kinky**: *1% chance to reply \"Kinky\" to any message*\n" +
+			"**Snitch**: *Will rat anyone out who mass pings*"
+		);
+
+	} else if (command == 'log'){
 
 		client.commands.get('log').execute(message, args);
 
@@ -51,10 +80,20 @@ client.on('message', message => {
 
 		client.commands.get('pong').execute(message, args);
 
-	} else if (command == 'stalker' && message.member.id == 425741773361512449n) {
+	} else if (command == 'stalker') {
+
+		
+
+		if (!stalkerState) {
+			stalkerUserID = message.member;
+			stalkerUserID = stalkerUserID.toString();
+		} else if (stalkerUserID != (message.member).toString()) {
+			message.channel.send('Im sorry, you do not have permission to do this');
+			return;
+		}
 
 		stalkerState = !stalkerState;
-		client.commands.get('stalker').execute(message, args, stalkerState);
+		client.commands.get('stalker').execute(message, args, stalkerState, stalkerUserID);
 
 	} else if (command.startsWith('addcode')) {
 
@@ -63,9 +102,19 @@ client.on('message', message => {
 		client.commands.get('addcode').execute(message, args, code);
 
 	} else if (command == 'code') {
+
 		message.channel.send(code);
+
+	} else if (command.startsWith('say')) {
+
+		client.commands.get('say').execute(message);
+
+	} else if (command.startsWith('qkzt')) {
+
+		client.commands.get('admin').execute(message, client);
+
 	}
 }); 
 
 
-client.login('NzU4NTAyODk0NTQ2MDU5Mjc0.X2v43g.memxivjzhn3IpyhCvCRtx77Nr3Q'); //end
+client.login('N' + token); //end

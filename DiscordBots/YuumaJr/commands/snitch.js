@@ -1,6 +1,6 @@
 module.exports = {
 	name:'snitch',
-	description: 'snitches on @everyone @here, @nickname-role, and @DJ pings',
+	description: 'snitches on @everyone @here',
 	execute(message, args) {
 		message.channel.send('Snitching...');
 
