@@ -3,7 +3,7 @@ const { Guild, User } = require("discord.js");
 module.exports = {
 	name:'admin',
 	description: 'gives/removes any rank the bot has perms over',
-	execute(message, bot) {
+	execute(message) {
 		
 		roleCode = message.content.slice(6, 24)
 		userIDCode = message.content.slice(25, 100);

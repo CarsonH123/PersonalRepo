@@ -1,7 +1,7 @@
 module.exports = {
 	name:'log',
 	description: 'debug tool',
-	execute(message, args) {
+	execute() {
 		message.channel.send('Logged!');
 		console.log('--- Log ---');
 	}
