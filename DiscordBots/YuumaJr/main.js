@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 
 const client = new Discord.Client();
-var token = new String('zU4NTAyODk0NTQ2MDU5Mjc0.X2v43g.0W_mElcdHTB0y-wsZClcQIHI8O0');
+var token = new String('[redacted]'); //add token again
 
 const prefix = '+';
 
