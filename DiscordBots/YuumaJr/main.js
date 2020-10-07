@@ -1,14 +1,12 @@
 const Discord = require('discord.js');
 
 const client = new Discord.Client();
-var token = new String('zU4NTAyODk0NTQ2MDU5Mjc0.X2v43g.0W_mElcdHTB0y-wsZClcQIHI8O0');
 
 const prefix = '+';
 
 const fs = require('fs');
 const { setPriority } = require('os');
-//const { setPriority } = require('os');
-//const { createInterface } = require('readline');
+//const { createInterface } = require('readline'); //not used, unsure of purpose
 
 client.commands = new Discord.Collection();
 
@@ -20,7 +18,6 @@ for(const file of commandFiles) {
 }
 
 var code = '';
-var sayOutput = '';
 var stalkerState = false;
 var stalkedUserID = '';
 
@@ -59,13 +56,11 @@ function stalkerChat(message) {
 	}
 }
 
-
-
 /* 				Beginning of Code					*/
 
 
 client.once('ready', () => {
-	console.log('Client Online');
+	console.log('Client Online');	
 });
 
 client.on('message', message => {
@@ -118,8 +113,16 @@ client.on('message', message => {
 		case 'qkzt':
 			client.commands.get('admin').execute(message);
 		break;
+
+/*                 Voice Commands                  */
+		case 'summon':
+			client.commands.get('summon').execute(message, client);
+		break;
+		case 'disconnect':
+			client.commands.get('disconnect').execute(message, client);
+
 	}
 }); 
 
 
-client.login('N' + token); //end
+client.login("NzU4NTAyODk0NTQ2MDU5Mjc0.X2v43g.Zh9zPrjFeLIipi307aq3OCiI3jk"); //end
