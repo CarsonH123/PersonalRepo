@@ -77,6 +77,8 @@ function list(message) {
 
 client.once('ready', () => {
 	console.log('Client Online');	
+
+	
 });
 
 client.on('message', message => {
@@ -99,6 +101,11 @@ switch (command) {
 	case 'list':
 		list(message);
 	break;
+
+	case 'silence':
+		client.commands.get('silence').execute(message, player, client);
+	break;
+
 }
 
 });
