@@ -4,7 +4,10 @@ const client = new Discord.Client();
 
 const prefix = '+';
 
-var player = Array(10);
+var player		 =	Array(10);
+var alivePlayer	 = 	Array(10);
+var deadPlayer	 = 	Array(10);
+var playerNick   =	Array(10);
 
 const fs = require('fs');
 const { setPriority } = require('os');
@@ -18,67 +21,8 @@ for(const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-function join(message) {
-
-		var i = new Number(0);
-
-		while (player[i] != null) {
-			if (player[i] == message.member.id) {
-				message.channel.send("You have already joined!");
-				return;
-			}
-			i++;
-		}
-		
-		if (i == 10) {
-			message.channel.send("Game is full");
-			return;
-		}
-
-		player[i] = message.member.id;
-
-		message.channel.send("Joined!");
-}
-
-function leave(message) {
-
-	var i = new Number(0);
-
-	while (player[i] != null) {
-	if (player[i] == message.member.id) {
-		player.splice(i, 1);
-		message.channel.send("Left!");
-		return;
-	}
-
-	i++;
-	}
-	message.channel.send("You have not joined!");
-	
-
-}
-
-function list(message) {
-
-	if (player[0] == null) {
-		message.channel.send("No one has joined!");
-		return;
-	}
-
-	message.channel.send("__**Joined Users:**__ \n");
-
-	i = 0;
-
-	while (player[i] != null){
-		message.channel.send("<@" + player[i] + ">");
-		i++;
-	}
-}
-
 client.once('ready', () => {
-	console.log('Client Online');	
-
-	
+	console.log('Client Online');		
 });
 
 client.on('message', message => {
@@ -88,22 +32,66 @@ if (!message.content.startsWith(prefix)) return;
 const args = message.content.slice(prefix.length).split(/ + /);
 var command = args.shift().toLowerCase();
 
+
+//do not need to be joined
 switch (command) {
 
-	case "join":
-		join(message);
+	case 'join':
+		client.commands.get('join').execute(message, player, alivePlayer, playerNick);
 	break;
+
+	case 'commands':
+		client.commands.get('commands').execute(message);
+		return;
+	break;
+
+}
+
+//Checking to see if player is already joined to the session
+var joined = false;
+
+for (var i = 0; i < 10; i++) {
+	if (player[i] == message.member.id) 
+		joined = true;
+}
+if (!joined) {
+	message.channel.send("You have not joined!");
+	return;
+}
+
+//need to be joined
+switch (command) {
 
 	case 'leave':
-		leave(message);
+		client.commands.get('leave').execute(message, player, alivePlayer, deadPlayer, playerNick);
 	break;
 
-	case 'list':
-		list(message);
+	case 'roster':
+		client.commands.get('roster').execute(message, player);
+	break;
+		
+	case 'status':
+		client.commands.get('status').execute(message, alivePlayer, deadPlayer);
 	break;
 
 	case 'silence':
-		client.commands.get('silence').execute(message, player, client);
+		client.commands.get('silence').execute(message, alivePlayer, deadPlayer, client);
+	break;
+
+	case 'voting':
+		client.commands.get('voting').execute(message, alivePlayer, deadPlayer, client);
+	break;
+		
+	case 'dead':
+		client.commands.get('dead').execute(message, player, alivePlayer, deadPlayer, playerNick);
+	break;
+		
+	case 'alive':
+		client.commands.get('alive').execute(message, player, alivePlayer, deadPlayer, playerNick);
+	break;
+		
+	case 'newgame':
+		client.commands.get('newGame').execute(message, player, alivePlayer, deadPlayer, playerNick);
 	break;
 
 }
