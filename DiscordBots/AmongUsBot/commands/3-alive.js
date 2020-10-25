@@ -14,8 +14,12 @@ module.exports = {
 
 		message.channel.send("You have been revived!");
 
+		i = 0;
+		while (player[i] != message.member.id) i++;
+
 		message.guild.members.cache.get(message.member.id).setNickname("[A] " + playerNick[i]);
 
+		message.guild.members.cache.get(message.member.id).voice.setMute(false);
 		alivePlayer[i] = message.member.id;
 		
 		//removing player id from deadPlayer array

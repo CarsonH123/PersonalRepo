@@ -14,8 +14,13 @@ module.exports = {
 
 		message.channel.send("You have died!");
 
+		i = 0;
+		while (player[i] != message.member.id) i++;
+
 		message.guild.members.cache.get(message.member.id).setNickname("[D] " + playerNick[i]);
 
+		i = 0;
+		while (deadPlayer[i] != null) i++;
 		deadPlayer[i] = message.member.id;
 
 		//removing id from alivePlayer array

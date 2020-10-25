@@ -1,19 +1,24 @@
 module.exports = {
 	name: 'status',
 	description: 'lists player life status',
-	execute(message, alivePlayer, deadPlayer) {
+	execute(message, player, alivePlayer, deadPlayer) {
 
-		message.channel.send("**__Living__**");
-		for(var i = 0; i < 10; i++) {
-			if (alivePlayer[i] == null) continue;
-			message.channel.send("<@" + alivePlayer[i] + ">");
+		if (player[0] == null) {
+			message.channel.send("No one has joined!");
+			return;
 		}
-		
-		message.channel.send("**__Dead__**");
-		for(var i = 0; i < 10; i++) {
-			if (deadPlayer[i] == null) return;
-			message.channel.send("<@" + deadPlayer[i] + ">");
+
+		var aliveStatus = new String("**__Alive Players:__**\n");
+		for(var i = 0; i < alivePlayer.length; i++) {
+			aliveStatus += "<@" + alivePlayer[i] + ">\n";
 		}
+
+		var deadStatus = new String("**__Dead Players:__**\n");
+		for (var i = 0; i < deadPlayer.length; i++) {
+			deadStatus += "<@" + deadPlayer[i] + ">\n";
+		}
+
+		message.channel.send(aliveStatus + deadStatus);
 
 	}
 }

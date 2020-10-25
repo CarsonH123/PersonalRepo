@@ -4,10 +4,10 @@ const client = new Discord.Client();
 
 const prefix = '+';
 
-var player		 =	Array(10);
-var alivePlayer	 = 	Array(10);
-var deadPlayer	 = 	Array(10);
-var playerNick   =	Array(10);
+var player		 =	Array();
+var alivePlayer	 = 	Array();
+var deadPlayer	 = 	Array();
+var playerNick   =	Array();
 
 const fs = require('fs');
 const { setPriority } = require('os');
@@ -45,6 +45,21 @@ switch (command) {
 		return;
 	break;
 
+	case 'skeld':
+		client.commands.get('skeld').execute(message);
+		return;
+	break;
+
+	case 'mira':
+		client.commands.get('mira').execute(message);
+		return;
+	break;
+
+	case 'polus':
+		client.commands.get('polus').execute(message);
+		return;
+	break;
+
 }
 
 //Checking to see if player is already joined to the session
@@ -71,7 +86,7 @@ switch (command) {
 	break;
 		
 	case 'status':
-		client.commands.get('status').execute(message, alivePlayer, deadPlayer);
+		client.commands.get('status').execute(message, player, alivePlayer, deadPlayer);
 	break;
 
 	case 'silence':
@@ -93,9 +108,8 @@ switch (command) {
 	case 'newgame':
 		client.commands.get('newGame').execute(message, player, alivePlayer, deadPlayer, playerNick);
 	break;
-
 }
 
 });
 
-client.login(""); //end
+client.login("[redacted]"); //end

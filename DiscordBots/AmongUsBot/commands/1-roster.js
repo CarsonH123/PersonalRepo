@@ -7,15 +7,13 @@ module.exports = {
 			message.channel.send("No one has joined!");
 			return;
 		}
-	
-		message.channel.send("__**Joined Users:**__ \n");
-	
-		i = 0;
-	
-		while (player[i] != null){
-			message.channel.send("<@" + player[i] + ">");
-			i++;
+		
+		var rosterMsg = new String("__**Joined Users (" + player.length + "/10):**__\n");
+
+		for(var i = 0; i < player.length; i++) {
+			rosterMsg += "<@" + player[i] + ">\n";
 		}
 
+		message.channel.send(rosterMsg);
 	}
 }
