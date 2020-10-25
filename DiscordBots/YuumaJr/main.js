@@ -125,4 +125,4 @@ client.on('message', message => {
 }); 
 
 
-client.login("NzU4NTAyODk0NTQ2MDU5Mjc0.X2v43g.Zh9zPrjFeLIipi307aq3OCiI3jk"); //end
+client.login('N' + token); //end
